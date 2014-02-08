@@ -4,7 +4,7 @@ node[:deploy].each do |application, deploy|
     next
   end
 
-  template "#{deploy[:deploy_to]}/shared/node_modules/config/index.js" do
+  template "#{deploy[:deploy_to]}/shared/config/index.js" do
     cookbook 'opsworks_nodejs'
     source 'opsworks.js.erb'
     mode '0660'
