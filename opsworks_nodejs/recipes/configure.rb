@@ -11,6 +11,11 @@ node[:deploy].each do |application, deploy|
     action :create
   end
 
+  link "#{deploy[:deploy_to]}/shared/node_modules/" do
+    to "#{deploy[:deploy_to]}/current/node_modules/"
+    action :create
+  end
+
   template "#{deploy[:deploy_to]}/shared/node_modules/config/index.js" do
     cookbook 'opsworks_nodejs'
     source 'opsworks.js.erb'
