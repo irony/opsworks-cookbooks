@@ -21,9 +21,10 @@ define :opsworks_nodejs do
     variables(:deploy => deploy, :layers => node[:opsworks][:layers])
   end
 
-  execute "symlinking config.json" do
-    command "ln -s -f #{deploy[:deploy_to]}/shared/config/config.json #{deploy[:deploy_to]}/current/config.json"
-    action :run
+  link "#{deploy[:deploy_to]}/shared/config/config.json" do
+    to "#{deploy[:deploy_to]}/current/config.json"
+    group deploy[:group]
+    owner deploy[:user]
   end
 
   template "#{node.default[:monit][:conf_dir]}/node_web_app-#{application}.monitrc" do
