@@ -12,14 +12,7 @@ define :opsworks_nodejs do
     end
   end
   
-  directory "#{deploy[:deploy_to]}/shared/node_modules/config" do
-    owner deploy[:user]
-    group deploy[:group]
-    mode '0660'
-    action :create
-  end
-
-  template "#{deploy[:deploy_to]}/shared/node_modules/config/index.js" do
+  template "#{deploy[:deploy_to]}/shared/config/config.json" do
     cookbook 'opsworks_nodejs'
     source 'opsworks.js.erb'
     mode '0660'
