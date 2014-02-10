@@ -7,7 +7,7 @@ define :opsworks_nodejs do
   end
 
   node[:dependencies][:npms].each do |npm, version|
-    execute "/usr/local/bin/npm install #{npm}" do
+    execute "/usr/local/bin/npm install #{npm} --production" do
       cwd "#{deploy[:deploy_to]}/current"
     end
   end
