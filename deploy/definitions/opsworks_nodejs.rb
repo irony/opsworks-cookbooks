@@ -16,7 +16,7 @@ define :opsworks_nodejs do
     mode '0660'
     owner deploy[:user]
     group deploy[:group]
-    variables(:deploy => deploy, :layers => node[:opsworks][:layers])
+    variables(:config => deploy, :layers => node[:opsworks][:layers])
   end
 
   link "#{deploy[:deploy_to]}/shared/config/config.json" do
