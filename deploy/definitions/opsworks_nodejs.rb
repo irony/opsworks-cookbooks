@@ -6,10 +6,8 @@ define :opsworks_nodejs do
     action :nothing
   end
 
-  node[:dependencies][:npms].each do |npm, version|
-    execute "/usr/local/bin/npm install #{npm} --production" do
-      cwd "#{deploy[:deploy_to]}/current"
-    end
+  execute "/usr/local/bin/npm install --production" do
+    cwd "#{deploy[:deploy_to]}/current"
   end
   
   template "#{deploy[:deploy_to]}/shared/config/config.json" do
