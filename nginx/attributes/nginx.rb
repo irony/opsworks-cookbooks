@@ -23,14 +23,15 @@ default[:nginx][:gzip_disable] = 'MSIE [1-6].(?!.*SV1)'
 default[:nginx][:gzip_http_version] = '1.0'
 default[:nginx][:gzip_comp_level] = '2'
 default[:nginx][:gzip_proxied] = 'any'
-default[:nginx][:gzip_types] = ['text/plain',
-                                'text/html',
-                                'text/css',
-                                'application/x-javascript',
-                                'text/xml',
+default[:nginx][:gzip_types] = ['application/x-javascript',
+                                'application/xhtml+xml',
                                 'application/xml',
                                 'application/xml+rss',
-                                'text/javascript']
+                                'text/css',
+                                'text/javascript',
+                                'text/plain',
+                                'text/xml']
+# NGinx will compress 'text/html' by default
 
 default[:nginx][:keepalive] = 'on'
 default[:nginx][:keepalive_timeout] = 65

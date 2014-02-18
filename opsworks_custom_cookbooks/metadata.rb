@@ -1,6 +1,8 @@
-maintainer "Amazon Web Services"
+name        "opsworks_custom_cookbooks"
 description "Supports custom user cookbooks"
-version "0.1"
+maintainer  "AWS OpsWorks"
+license     "Apache 2.0"
+version     "1.0.0"
 
 recipe "opsworks_custom_cookbooks::checkout", "Checkout custom Cookbooks"
 recipe "opsworks_custom_cookbooks::load", "Load custom Cookbooks"
