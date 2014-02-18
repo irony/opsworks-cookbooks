@@ -44,7 +44,7 @@ define :opsworks_deploy do
   end
 
   deploy = node[:deploy][application]
-  release_path = deploy[:deploy_to]
+  release_path = deploy[:deploy_to] + "/current"
 
   directory "#{deploy[:deploy_to]}/shared/cached-copy" do
     recursive true
