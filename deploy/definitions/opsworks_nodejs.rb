@@ -6,9 +6,12 @@ define :opsworks_nodejs do
     action :nothing
   end
 
-  Chef::Log.info("Running npm install.")
-  Chef::Log.info(`sudo su #{deploy[:user]} -c 'cd #{app_root_path} && npm install --production' 2>&1`)
-  
+  node[:dependencies][:npms].each do |npm, version|
+    execute "/usr/local/bin/npm install #{npm}" do
+      cwd "#{deploy[:deploy_to]}/current"
+    end
+  end
+
   template "#{deploy[:deploy_to]}/shared/config/config.json" do
     cookbook 'opsworks_nodejs'
     source 'opsworks.js.erb'
