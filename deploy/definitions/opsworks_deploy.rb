@@ -44,7 +44,6 @@ define :opsworks_deploy do
   end
 
   deploy = node[:deploy][application]
-  release_path = deploy[:deploy_to] + "/current"
 
   directory "#{deploy[:deploy_to]}/shared/cached-copy" do
     recursive true
@@ -143,9 +142,7 @@ define :opsworks_deploy do
           end
         elsif deploy[:application_type] == 'nodejs'
           if deploy[:auto_npm_install_on_deploy]
-            execute "sudo npm install --production" do
-              cwd "#{deploy[:deploy_to]}/current"
-            end
+            OpsWorks::NodejsConfiguration.npm_install(application, node[:deploy][application], release_path)
           end
         end
 
