@@ -143,7 +143,9 @@ define :opsworks_deploy do
           end
         elsif deploy[:application_type] == 'nodejs'
           if deploy[:auto_npm_install_on_deploy]
-            OpsWorks::NodejsConfiguration.npm_install(application, node[:deploy][application], node[:deploy][application][:deploy_to] + "/current")
+            execute "sudo npm install --production" do
+              cwd "#{deploy[:deploy_to]}/current"
+            end
           end
         end
 
