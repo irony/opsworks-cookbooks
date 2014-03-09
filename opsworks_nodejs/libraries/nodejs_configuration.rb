@@ -3,7 +3,7 @@ module OpsWorks
     def self.npm_install(app_name, app_config, app_root_path)
       if File.exists?("#{app_root_path}/package.json")
         Chef::Log.info("package.json detected. Running npm install.")
-        Chef::Log.info(OpsWorks::ShellOut.shellout("sudo su #{app_config[:user]} -c 'cd #{app_root_path} && npm install --production' 2>&1"))
+        Chef::Log.info(OpsWorks::ShellOut.shellout("sudo su #{app_config[:user]} -c 'cd #{app_root_path} && npm install --production --cache ~/.npm --tmp ~/tmp' 2>&1"))
       end
     end
   end
