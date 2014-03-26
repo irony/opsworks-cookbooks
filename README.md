@@ -1,24 +1,16 @@
-opsworks-cookbooks
+opsworks-cookbooks for MEAN stacks
 ==================
 
-These are the standard Chef cookbooks used by AWS OpsWorks.
+This is a fork of the official AWS opsworks recipes but adjusted to work well with NodeJS. 
 
-If you want to override any template (like the Rails database.yml or the Apache vhost definition),
-this is the place to look for the originals.
-
-The branches are organized as follows and depend on the
-[configuration manager](http://docs.aws.amazon.com/opsworks/latest/APIReference/API_CreateStack.html)
-used by your stack.
-
-- Chef 11.4
-  - [release-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/release-chef-11.4): Cookbooks for the current release.
-  - [master-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/master-chef-11.4): Cookbooks for the next release.
-- Chef 0.9
-  - [release-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/release-chef-0.9): Cookbooks for the current release.
-  - [master-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/master-chef-0.9): Cookbooks for the next release.
-
-The `master` branch is no longer used since AWS OpsWorks supports
-multiple configuration managers now.
+## NodeJS adjustments
+* The default starting file is not the unusual server.js but defaco standard index.js (or whatever you configure it to be in stack settings)
+* The default port is 3000 (or whatever you configure it to be in the stack settings, see below)
+* Npm install output is logged to the log output
+* Npm install runs with --production flag meaning it will not install your local dev settings, as grunt, tests etc.
+* The stack settings is exported to a config.json file which is ideal to load with [nconf](https://github.com/flatiron/nconf)
+* Multiple node instances are allowed on the same machine and when new deployments are published, only the deployed app will be restarted
+* 
 
 See also <https://aws.amazon.com/opsworks/>
 
