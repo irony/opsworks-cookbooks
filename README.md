@@ -1,7 +1,12 @@
 opsworks-cookbooks for MEAN stacks
 ==================
 
-This is a fork of the official AWS opsworks recipes but adjusted to work well with NodeJS. 
+This is a fork of the official AWS opsworks recipes adjusted to work well with NodeJS. 
+
+## Stability
+This is a work in progress, there are some stability issues when running large node projects on a t1.micro but that is the same with the official recipes too. I am keeping the repo up to date every week with changes from AWS but they haven't put lot of love in the NodeJS parts to right now this repository is in a better shape than the official one. I will of course try to push these to the official repo. 
+
+Ideas, pull requests and issues are more than welcome.
 
 ## NodeJS adjustments
 * The default starting file is not the unusual server.js but defaco standard index.js
@@ -65,8 +70,17 @@ To use MongoDB, just add these recepies to your layer:
           "db_dir" : "/data/redis"
         },
     }
+    
+## TODO: 
+* Describe Redis in readme
+* Describe how to speed up load time with custom AMI's
+* Get tests to work
+
+## About me
+Christian Landgren, working at [Iteam](http://iteam.se). Have been building Node projects since 2010, Javascript projects since 2000. 
 
 See also <https://aws.amazon.com/opsworks/>
+
 
 LICENSE: Unless otherwise stated, cookbooks/recipes originated by Amazon Web Services are licensed
 under the [Apache 2.0 license](http://aws.amazon.com/apache2.0/). See the LICENSE file. Some files
