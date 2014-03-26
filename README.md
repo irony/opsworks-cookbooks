@@ -77,7 +77,7 @@ To use MongoDB, just add these recepies to your layer:
 * Get tests to work
 
 ## About me
-Christian Landgren, working at [Iteam](http://iteam.se). Have been building Node projects since 2010, Javascript projects since 2000. 
+Christian Landgren, working at [Iteam](http://iteam.se). Have been building Node projects since 2010.
 
 See also <https://aws.amazon.com/opsworks/>
 
