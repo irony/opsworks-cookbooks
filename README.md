@@ -47,6 +47,7 @@ To use MongoDB, just add these recepies to your layer:
 *Note! Remember to add a separate EBS volume for the data and logs, the locations can be customized in the stack settings*
  
  Stack settings for replicaset, (you still manually need to connect them though with rs.conf() ):
+ 
     {
        ...
        "mongodb": {
