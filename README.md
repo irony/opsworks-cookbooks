@@ -1,26 +1,87 @@
-opsworks-cookbooks
+opsworks-cookbooks for MEAN stacks
 ==================
 
-These are the standard Chef cookbooks used by AWS OpsWorks.
+This is a fork of the official AWS opsworks recipes adjusted to work well with NodeJS. Includes recipes for Mongo and works perfect with Express. Exports stack settings to config.json.
 
-If you want to override any template (like the Rails database.yml or the Apache vhost definition),
-this is the place to look for the originals.
+## NodeJS adjustments
+* The default starting file is not the unusual server.js but defaco standard index.js
+* The default port is 3000 (or whatever you configure it to be in the stack settings, see below)
+* Npm install output is logged to the log output
+* Npm install runs with --production flag meaning it will not install your local dev settings, as grunt, tests etc.
+* The stack settings is exported to a config.json file which is ideal to load with [nconf](https://github.com/flatiron/nconf)
+* Multiple node instances are allowed on the same machine and when new deployments are published, only the deployed app will be restarted. Since each app has it's own port you are not getting annyoing conflicts on ports etc.
 
-The branches are organized as follows and depend on the
-[configuration manager](http://docs.aws.amazon.com/opsworks/latest/APIReference/API_CreateStack.html)
-used by your stack.
+## How to use
+Fork this lib to your own and specify the git URL in the stack settings.
+![Change stack settings repository](http://cl.ly/image/0J432g2z3L3B/Image%202014-03-25%20at%2010.15.11%20em.png)
 
-- Chef 11.4
-  - [release-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/release-chef-11.4): Cookbooks for the current release.
-  - [master-chef-11.4](https://github.com/aws/opsworks-cookbooks/tree/master-chef-11.4): Cookbooks for the next release.
-- Chef 0.9
-  - [release-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/release-chef-0.9): Cookbooks for the current release.
-  - [master-chef-0.9](https://github.com/aws/opsworks-cookbooks/tree/master-chef-0.9): Cookbooks for the next release.
+Note! *If you plan to use the current URL directly, please watch this repository so I can communicate with you when breaking changes occur*
 
-The `master` branch is no longer used since AWS OpsWorks supports
-multiple configuration managers now.
+## Stack settings
+Every app will recieve all custom configuration settings from the stack settings JSON as a config.json file in the current app directory so you either can use `require('./config').port` or use  [nconf](https://github.com/flatiron/nconf) to adjust your application accordingly. To do this you just add a node for each application in the stack settings under the deploy node:
+    
+    {
+      "deploy": {
+        "app" : {
+          "port" : "3000"
+        },
+        "worker" : {
+          "port" : "4000",
+          "custom": {
+            "host": "...",
+            "port": "...",
+            "password": "..."
+          },
+        }
+      }
+    }
+    
+## Included additional recipes
+I also have included some recipes that can be handy to have when running NodeJs:
+* MongoDB (submodule from [Edelight/chef-mongodb](https://github.com/edelight/chef-mongodb)
+* Redis (submodule from [jtescher/redis](https://github.com/jtescher/redis)
+* dependencies to get all to work (Build essentials, Python etc)
+
+To use MongoDB, just add these recepies to your layer:
+![Settings for layer to configure MongoDB in Opsworks](http://cl.ly/image/1D1J0s3L0w06/Image%202014-03-25%20at%2010.31.30%20em.png)
+*Note! Remember to add a separate EBS volume for the data and logs, the locations can be customized in the stack settings*
+ 
+ Stack settings for replicaset, (you still manually need to connect them though with rs.conf() ):
+ 
+    {
+       ...
+       "mongodb": {
+          "auto_configure": {
+            "replicaset": "true"
+          },
+          "cluster_name": "mongo-rs",
+          "replicaset_name": "mongo-rs",
+          "config" : {
+            "dbpath" : "/data/mongo",
+            "logpath" : "/data/log"
+          }
+        }, 
+        "redis" : {
+          "db_dir" : "/data/redis"
+        },
+    }
+    
+## TODO: 
+* Describe Redis in readme
+* Describe how to speed up load time with custom AMI's
+* Adjust tests (how?)
+
+## Status
+This is a work in progress, there are some stability issues when running large node projects on a t1.micro but that is the same with the official recipes too. I am keeping the repo up to date every week with changes from AWS but they haven't put lot of love in the NodeJS parts to right now this repository is in a better shape than the official one. I will of course try to push these to the official repo. 
+
+Ideas, pull requests and issues are more than welcome.
+
+
+## About me
+Christian Landgren, working at [Iteam](http://iteam.se). Have been building Node projects since 2010.
 
 See also <https://aws.amazon.com/opsworks/>
+
 
 LICENSE: Unless otherwise stated, cookbooks/recipes originated by Amazon Web Services are licensed
 under the [Apache 2.0 license](http://aws.amazon.com/apache2.0/). See the LICENSE file. Some files
